@@ -21,7 +21,7 @@ $(BUILD_DIR):
 
 $(BIN):
 	@mkdir -p $@
-$(BIN)/%: | $(BIN) ; $(info $(M) building $(PACKAGE)…)
+$(BIN)/%: | $(BIN) ; $(info $(M) building $(PACKAGE)...)
 	$Q env GOBIN=$(BIN) $(GO) get $(PACKAGE) \
 		|| ret=$$?; \
 	   git checkout go.mod go.sum; exit $$ret
@@ -51,7 +51,7 @@ test-verbose: ARGS=-v            ## Run tests in verbose mode with coverage repo
 test-race:    ARGS=-race         ## Run tests with race detector
 $(TEST_TARGETS): NAME=$(MAKECMDGOALS:test-%=%)
 $(TEST_TARGETS): test
-test: ; $(info $(M) running $(NAME:%=% )tests…) @ ## Run tests
+test: ; $(info $(M) running $(NAME:%=% )tests...) @ ## Run tests
 	$Q $(GO) test -timeout $(TIMEOUT)s $(ARGS) ./...
 
 COVERAGE_MODE    = atomic
@@ -61,7 +61,7 @@ COVERAGE_XML     = $(COVERAGE_DIR)/coverage.xml
 COVERAGE_HTML    = $(COVERAGE_DIR)/index.html
 .PHONY: test-coverage test-coverage-tools
 test-coverage-tools: | $(GOCOV) $(GOCOVXML)
-test-coverage: test-coverage-tools ; $(info $(M) running coverage tests…) @ ## Run coverage tests
+test-coverage: test-coverage-tools ; $(info $(M) running coverage tests...) @ ## Run coverage tests
 	$Q mkdir -p $(COVERAGE_DIR)
 	$Q $(GO) test $(TEST_TAGS) ./... \
 		-covermode=$(COVERAGE_MODE) \
@@ -70,15 +70,15 @@ test-coverage: test-coverage-tools ; $(info $(M) running coverage tests…) @ ##
 	$Q $(GOCOV) convert $(COVERAGE_PROFILE) | $(GOCOVXML) > $(COVERAGE_XML)
 
 .PHONY: lint
-lint: check-fmt | $(GOLANGCI_LINT) ; $(info $(M) running linters…) @ ## Run golangci-lint
+lint: check-fmt | $(GOLANGCI_LINT) ; $(info $(M) running linters...) @ ## Run golangci-lint
 	$Q $(GOLANGCI_LINT) run
 
 .PHONY: fmt
-fmt: | $(GOIMPORTS) ; $(info $(M) running goimports…) @ ## Run goimports on all source files
+fmt: | $(GOIMPORTS) ; $(info $(M) running goimports...) @ ## Run goimports on all source files
 	$Q $(GOIMPORTS) -local $(MODULE) -w $$(find . -type f -name '*.go' -not -path "./vendor/*")
 
 .PHONY: check-fmt
-check-fmt: | $(GOIMPORTS) ; $(info $(M) running goimports…) @ ## Check formatting with goimports
+check-fmt: | $(GOIMPORTS) ; $(info $(M) running goimports...) @ ## Check formatting with goimports
 	$Q diff -u <(echo -n) <($(GOIMPORTS) -d -local $(MODULE) $$(find . -type f -name '*.go' -not -path "./vendor/*"))
 
 .PHONY: check
@@ -92,7 +92,7 @@ generate: | $(GO_ENUM) # Generate code
 # Misc
 
 .PHONY: clean
-clean: ; $(info $(M) cleaning…)	@ ## Cleanup everything
+clean: ; $(info $(M) cleaning...)	@ ## Cleanup everything
 	$Q rm -rf $(BIN)
 
 .PHONY: help
