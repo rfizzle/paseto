@@ -1,4 +1,4 @@
-module github.com/rfizzle/paseto/v2
+module github.com/rfizzle/paseto/v3
 
 go 1.17
 
